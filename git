@@ -2,6 +2,7 @@
 : << 'COMMENT'
 gh repo create "docker" --public
 gh repo delete "docker" --confirm
+git rm -rf --cached .
 COMMENT
 clear
 
