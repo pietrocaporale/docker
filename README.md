@@ -40,5 +40,5 @@
     phpmyadmin http://127.0.0.1:8081/
     phpapp http://127.0.0.1:8091/
 
-
-
+##### Php connection parameters
+    In pdoconn.php you can see an example
