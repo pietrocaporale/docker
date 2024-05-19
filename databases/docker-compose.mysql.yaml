@@ -1,0 +1,63 @@
+
+# phpmyadmin http://127.0.0.1:8081/
+# phpapp http://127.0.0.1:8091/
+
+# stack name
+name: mysql
+
+services:
+    apachephp:
+        #container_name: apachephp
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - mysql
+        volumes:
+            - /run/media/pit/Barracuda/development/public_html/_docker_/phpapp/:/var/www/html/
+            # - data:/var/lib/mysql
+            #- ./data:/var/lib/mysql
+
+        ports:
+            - 8091:80
+        networks:
+            - apachephp-net
+
+    mysql:
+        container_name: mysql
+        image: mysql:latest
+        #command: ["mysqld", "--mysql-native-password=ON"]
+        environment:
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_ROOT_PASSWORD: passr
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: pass
+        #command: [mysqld, --default-authentication-plugin=mysql_native_password, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb_monitor_enable=all, --max-connections=1001]
+        ports:
+            - 9907:3306
+        networks:
+            - apachephp-net
+        volumes:
+            - data:/var/lib/mysql
+
+    phpmyadmin:
+        #container_name: phpmyadmin
+        image: phpmyadmin:latest
+        restart: always
+        environment:
+            PMA_HOST: mysql
+            PMA_USER: root
+            PMA_PASSWORD: passr
+        networks:
+            - apachephp-net
+        ports:
+            - 8081:80
+        depends_on:
+            - mysql
+
+volumes:
+  data:
+    driver: local
+
+networks:
+    apachephp-net:

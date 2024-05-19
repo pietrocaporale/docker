@@ -1,0 +1,18 @@
+#!/bin/bash
+: << 'COMMENT'
+gh repo create "docker" --public
+COMMENT
+clear
+
+git init
+git remote add origin https://github.com/pietrocaporale/docker.git
+
+git status
+echo "___________________________________________"
+git add .
+git commit -m "apache-php-mariadb-mysql-phpmyadmin"
+echo "___________________________________________"
+git push -u origin main
+git status
+#git log
+

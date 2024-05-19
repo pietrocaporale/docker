@@ -1,0 +1,63 @@
+
+# phpmyadmin http://127.0.0.1:8080/
+# phpapp http://127.0.0.1:8090/
+
+# stack name
+name: mariadb
+
+services:
+    apachephp:
+        #container_name: apachephp
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - mariadb
+        volumes:
+            - /run/media/pit/Barracuda/development/public_html/_docker_/phpapp/:/var/www/html/
+            # - data:/var/lib/mysql
+            #- ./data:/var/lib/mysql
+
+        ports:
+            - 8090:80
+        networks:
+            - apachephp-net
+
+
+    mariadb:
+        container_name: mariadb
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: passr
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: pass
+        networks:
+            - apachephp-net
+        ports:
+            - 9906:3306
+        volumes:
+            - data:/var/lib/mysql
+            #- ./data:/var/lib/mysql
+
+
+    phpmyadmin:
+        #container_name: phpmyadmin
+        image: phpmyadmin:latest
+        restart: always
+        environment:
+            PMA_HOST: mariadb
+            PMA_USER: root
+            PMA_PASSWORD: passr
+        networks:
+            - apachephp-net
+        ports:
+            - 8080:80
+        depends_on:
+            - mariadb
+
+volumes:
+  data:
+    driver: local
+
+networks:
+    apachephp-net:
