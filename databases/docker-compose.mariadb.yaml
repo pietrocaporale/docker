@@ -7,7 +7,6 @@ name: mariadb
 
 services:
     apachephp:
-        #container_name: apachephp
         build:
             context: .
             dockerfile: Dockerfile
@@ -41,9 +40,7 @@ services:
 
 
     phpmyadmin:
-        #container_name: phpmyadmin
         image: phpmyadmin:latest
-        restart: always
         environment:
             PMA_HOST: mariadb
             PMA_USER: root
