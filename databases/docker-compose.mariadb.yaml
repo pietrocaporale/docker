@@ -14,8 +14,8 @@ services:
             - mariadb
         volumes:
             - /run/media/pit/Barracuda/development/public_html/_docker_/phpapp/:/var/www/html/
-            # - data:/var/lib/mysql
-            #- ./data:/var/lib/mysql
+            # - phpapp:/var/www/html
+            #- ./phpapp:/var/www/html
 
         ports:
             - 8090:80
